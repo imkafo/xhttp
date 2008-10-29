@@ -20,17 +20,18 @@
 
 package com.jcraft.weirdx;
 
-import java.io.*;
-import java.awt.*;
-
-// import com.sun.java.swing.*;
-// import com.sun.java.swing.border.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.io.IOException;
 
 import org.apache.log4j.Logger;
-
-import com.xweb.DefaultHTMLFactory;
+import org.xwww.html.DefaultHTMLFactory;
+import org.xwww.requests.CreateWindowRequest;
 
 class Window extends Drawable {
 
@@ -1942,8 +1943,11 @@ class Window extends Drawable {
         }
 
         // TODO: Bau,...
-        DefaultHTMLFactory factory = new DefaultHTMLFactory();
-        factory.reqCreateWindow(wid, x, y, width, height, foo);
+        CreateWindowRequest createWindowRequest = new CreateWindowRequest();
+        String html = createWindowRequest.createHTML();
+        DefaultHTMLFactory kk = new DefaultHTMLFactory();
+        kk.writeHTML( html );
+        
 
         if (c.errorReason != 0) {
             return;

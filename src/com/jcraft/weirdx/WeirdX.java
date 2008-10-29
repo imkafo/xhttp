@@ -28,10 +28,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
 
+import org.apache.log4j.Logger;
+import org.xwww.config.XConfig;
+
 // import com.sun.java.swing.*;
 // import javax.swing.*;
 
 public final class WeirdX extends Applet {
+	
+	private static String _VERSION = "v0.01";
+	private static Logger log = Logger.getLogger(WeirdX.class);
+	
+	
     static final Object LOCK = WeirdX.class;
 
     static final int major = 11;
@@ -711,6 +719,11 @@ public final class WeirdX extends Applet {
     }
 
     public static void main(String args[]) {
+    	
+    	XConfig.loadLogProperties();
+    	
+    	log.debug("Version: " + _VERSION );
+    	
         String s;
         WeirdX weirdx = new WeirdX();
 
@@ -1148,6 +1161,9 @@ public final class WeirdX extends Applet {
                 params[0] = int.class;
                 method = c.getMethod("setServerPort", params);
                 args[0] = new Integer(6000 + weirdx.displaynum);
+                
+                log.debug("Listing port: " + args[0]);
+                
                 method.invoke(foo, args);
 
                 params[0] = String.class;

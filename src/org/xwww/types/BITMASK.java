@@ -2,7 +2,12 @@ package org.xwww.types;
 
 import java.io.BufferedInputStream;
 
-public class INT32 extends XGenericType {
+public class BITMASK extends XGenericType {
+
+	public BITMASK(String nameParam) {
+		super(nameParam);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void getDataFromStream(BufferedInputStream inputStream) {

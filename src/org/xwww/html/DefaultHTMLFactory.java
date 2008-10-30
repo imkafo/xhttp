@@ -14,7 +14,8 @@ public class DefaultHTMLFactory implements IHTMLFactory {
         
         if ( deployer == null ) {
             
-            File file = new File("output.js");
+        	// TODO: The www/output.js has to be set up in a config file
+            File file = new File("www/output.js");
             
             deployer = new HTMLDeployer( file );
         }
@@ -22,40 +23,5 @@ public class DefaultHTMLFactory implements IHTMLFactory {
         deployer.write( s );
         
     }
-    
-    
-//    /**
-//     *  CREATE WINDOW
-//     * 
-//     * 
-//     */
-//    public void reqCreateWindow(int wid, int x, int y, int width, int height, int parentId) {
-//        
-//        log.debug("Xwww: Window id: " + wid);
-//        
-//        String out = 
-//            "win_"+wid+" = new Ext.Window({ \n" +
-//            "    id: " + wid + ", \n" +
-//            "        layout:'fit', \n" +
-//            "        width:"+width+", \n" +
-//            "        height:"+height+", \n" +
-//            "    x:"+x+", y:"+y+", \n" +
-//            "        closable: false, \n" +
-//            "        resizable: false, \n" +
-//            "        plain: false, \n" +
-//            "        border: false, \n" +
-//            "    shadow: false, \n" +
-//            "    html: 'Id:"+wid+"' \n" +
-//            "    }); \n" + 
-//            "win_"+wid+".show();\n" +
-//            "win_"+parentId+".add( win_"+wid+");\n\n";
-//       
-//        writeHTML( out );
-//        
-//        
-//        
-//    }
-
-
 
 }

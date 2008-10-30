@@ -222,10 +222,13 @@ final class Client extends Thread {
 
         try {
             while (true) {
+            	
                 waitforreq = true;
                 errorReason = 0;
                 reqType = client.readByte();
 
+                log.debug("Request recived: " + reqType);
+                
                 seq++;
 
                 suspended = false;

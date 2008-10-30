@@ -32,6 +32,8 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.xwww.html.DefaultHTMLFactory;
 import org.xwww.requests.CreateWindowRequest;
+import org.xwww.requests.XRequest;
+import org.xwww.requests.XRequestDispatcher;
 
 class Window extends Drawable {
 
@@ -1900,34 +1902,48 @@ class Window extends Drawable {
 
     static final void reqCreateWindow(Client c) throws IOException {
 
-        int foo;
-
+    	log.debug("Init CreateWindow.");
+    	
         byte depth;
-        int x, y, width, height, bwidth, clss;
-        int visual;
+        int parentid, x, y, width, height, bwidth, clss;
+        int wid, visual;
         int mask;
         IO io = c.client;
 
         depth = (byte) c.data;
 
-        int wid = io.readInt();
+        
+        XRequest xreq = XRequestDispatcher.createRequest( 1 );
+        xreq.captureDataFromStream( io );
 
-        foo = io.readInt();
-        Window prnt = c.lookupWindow(foo);
+        wid 		= xreq.findParameter("wid").getValueInt();
+        parentid 	= xreq.findParameter("parent").getValueInt();
+        x 			= xreq.findParameter("x").getValueInt();
+        y 			= xreq.findParameter("y").getValueInt();
+        width 		= xreq.findParameter("width").getValueInt();
+        height 		= xreq.findParameter("height").getValueInt();
+        bwidth 		= xreq.findParameter("border-width").getValueInt();
+        clss 		= xreq.findParameter("class").getValueInt();
+        visual 		= xreq.findParameter("visual").getValueInt();
+        mask 		= xreq.findParameter("value-mask").getValueInt();
+        
+        
+//        wid 		= io.readInt();
+//        parentid 	= io.readInt();
+//        x 			= io.readShort();
+//        y 			= io.readShort();
+//        width 		= io.readShort();
+//        height 		= io.readShort();
+//        bwidth 		= io.readShort();
+//        clss 		= io.readShort();
+//        visual 		= io.readInt();
+//        mask 		= io.readInt();
 
-        x = io.readShort();
-        y = io.readShort();
-        width = io.readShort();
-        height = io.readShort();
-        bwidth = io.readShort();
-        clss = io.readShort();
-        visual = io.readInt();
-        mask = io.readInt();
-
+        Window prnt = c.lookupWindow(parentid);
         c.length -= 8;
 
         if (prnt == null) {
-            c.errorValue = foo;
+            c.errorValue = parentid;
             c.errorReason = 3; // BadWindow;
         }
 
@@ -1942,14 +1958,14 @@ class Window extends Drawable {
                     c, visual, mask);
         }
 
-        // TODO: Bau,...
-        CreateWindowRequest createWindowRequest = new CreateWindowRequest();
-        String html = createWindowRequest.createHTML();
+        // Create html
+        String html = xreq.createHTML();
         DefaultHTMLFactory kk = new DefaultHTMLFactory();
         kk.writeHTML( html );
         
 
         if (c.errorReason != 0) {
+        	log.debug("Error");
             return;
         }
         Resource.add(w);

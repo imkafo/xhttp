@@ -23,147 +23,180 @@ package com.jcraft.weirdx;
 import java.io.*;
 import java.util.*;
 
-abstract class IO{
-  InputStream in=null;
-  OutputStream out=null;
-  byte[] inbuffer=new byte[1024];
-  byte[] outbuffer=new byte[1024];
-  int instart=0, inend=0, outindex=0, inrest=0;
-  byte[] ba;
-  byte[] sa;
-  byte[] ia;
-  IO(){ ba=new byte[1]; sa=new byte[2]; ia=new byte[8]; }
+abstract public class IO {
+	InputStream in = null;
+	OutputStream out = null;
+	byte[] inbuffer = new byte[1024];
+	byte[] outbuffer = new byte[1024];
+	int instart = 0, inend = 0, outindex = 0, inrest = 0;
+	byte[] ba;
+	byte[] sa;
+	byte[] ia;
 
-  abstract int readShort() throws java.io.IOException;
-  abstract int readInt() throws java.io.IOException;
-  abstract void writeShort(int val) throws java.io.IOException;
-  abstract  void writeInt(int val) throws java.io.IOException;
-
-  void setInputStream(InputStream in){this.in=in; }
-  void setOutputStream(OutputStream out){ this.out=out; }
-  int available() throws java.io.IOException{
-    if(0<inrest) return 1;
-    return in.available();
-  }
-  int readByte() throws java.io.IOException{
-    if((inrest)<1){ read(1); }
-    inrest--;
-    return inbuffer[instart++]&0xff;
-  }
-  void readByte(byte[] array) throws java.io.IOException{
-    readByte(array, 0, array.length);
-  }
-  void readByte(byte[] array, int begin, int length) throws java.io.IOException{
-    int i=0;
-    while(true){
-      if((i=(inrest))<length){
-	if(i!=0){
-	  System.arraycopy(inbuffer, instart, array, begin, i);
-	  begin+=i;
-	  length-=i;
-	  instart+=i;
-	  inrest-=i;
+	IO() {
+		ba = new byte[1];
+		sa = new byte[2];
+		ia = new byte[8];
 	}
-	read(length);
-	continue;
-      }
-      System.arraycopy(inbuffer, instart, array, begin, length);
-      instart+=length;
-      inrest-=length;
-      break;
-    }
-  }
 
-  void readPad(int n) throws java.io.IOException{
-    while (n > 0){
-      if(inrest<n){ 
-	n-=inrest;
-	instart+=inrest;
-	inrest=0;
-	read(n); 
-	continue;
-      }
-      instart+=n;
-      inrest-=n;
-      break;
-    }
-  }
+	public abstract int readShort() throws java.io.IOException;
 
-  protected final void read(int n) throws java.io.IOException{
-    if (n>inbuffer.length){
-      n=inbuffer.length;
-    }
-    instart=inend=0;
+	public abstract int readInt() throws java.io.IOException;
 
-    int i;
+	public abstract void writeShort(int val) throws java.io.IOException;
 
-    while(true){
-      i=in.read(inbuffer, inend, inbuffer.length-inend);
-      if(i==-1){ throw new java.io.IOException(); }
-      inend+=i;
-      if(n<=inend)break;
-    }
-    inrest=inend-instart;
-  }
+	public abstract void writeInt(int val) throws java.io.IOException;
 
-  void writeByte(byte val) throws java.io.IOException{
-    if((outbuffer.length-outindex)<1){ flush(); }
-    outbuffer[outindex++]=val;
-  }
-
-  void writeByte(int val) throws java.io.IOException{
-    writeByte((byte)val);
-  }
-
-  void writeByte(byte[] array) throws java.io.IOException{
-    writeByte(array, 0, array.length);
-  }
-
-  void writeByte(byte[] array, int begin, int length) throws java.io.IOException{
-    if(length<=0) return;
-    int i=0;
-    while(true){
-      if((i=(outbuffer.length-outindex))<length){
-	if(i!=0){
-	  System.arraycopy(array, begin, outbuffer, outindex, i);
-	  begin+=i;
-	  length-=i;
-	  outindex+=i;
+	public void setInputStream(InputStream in) {
+		this.in = in;
 	}
-	flush();
-	continue;
-      }
-      System.arraycopy(array, begin, outbuffer, outindex, length);
-      outindex+=length;
-      break;
-    }
-  }
 
-  void writePad(int n) throws java.io.IOException{
-    int i;
-    while(true){
-      if((i=(outbuffer.length-outindex))<n){
-	if(i!=0){
-	  outindex+=i;
-	  n-=i;
+	public void setOutputStream(OutputStream out) {
+		this.out = out;
 	}
-	flush();
-	continue;
-      }
-      outindex+=n;
-      break;
-    }
-  }
 
-  synchronized void flush() throws java.io.IOException{
-    if(outindex==0)return;
-    out.write(outbuffer, 0, outindex);
-    outindex=0;
-  }
-  synchronized void immediateWrite(byte[] array, int b, int l)throws java.io.IOException{
-    out.write(array, b, l);
-  }
-  void close() throws java.io.IOException{
-    in.close(); out.close(); 
-  }
+	public int available() throws java.io.IOException {
+		if (0 < inrest)
+			return 1;
+		return in.available();
+	}
+
+	public int readByte() throws java.io.IOException {
+		if ((inrest) < 1) {
+			read(1);
+		}
+		inrest--;
+		return inbuffer[instart++] & 0xff;
+	}
+
+	public void readByte(byte[] array) throws java.io.IOException {
+		readByte(array, 0, array.length);
+	}
+
+	public void readByte(byte[] array, int begin, int length)
+			throws java.io.IOException {
+		int i = 0;
+		while (true) {
+			if ((i = (inrest)) < length) {
+				if (i != 0) {
+					System.arraycopy(inbuffer, instart, array, begin, i);
+					begin += i;
+					length -= i;
+					instart += i;
+					inrest -= i;
+				}
+				read(length);
+				continue;
+			}
+			System.arraycopy(inbuffer, instart, array, begin, length);
+			instart += length;
+			inrest -= length;
+			break;
+		}
+	}
+
+	public void readPad(int n) throws java.io.IOException {
+		while (n > 0) {
+			if (inrest < n) {
+				n -= inrest;
+				instart += inrest;
+				inrest = 0;
+				read(n);
+				continue;
+			}
+			instart += n;
+			inrest -= n;
+			break;
+		}
+	}
+
+	protected final void read(int n) throws java.io.IOException {
+		if (n > inbuffer.length) {
+			n = inbuffer.length;
+		}
+		instart = inend = 0;
+
+		int i;
+
+		while (true) {
+			i = in.read(inbuffer, inend, inbuffer.length - inend);
+			if (i == -1) {
+				throw new java.io.IOException();
+			}
+			inend += i;
+			if (n <= inend)
+				break;
+		}
+		inrest = inend - instart;
+	}
+
+	public void writeByte(byte val) throws java.io.IOException {
+		if ((outbuffer.length - outindex) < 1) {
+			flush();
+		}
+		outbuffer[outindex++] = val;
+	}
+
+	public void writeByte(int val) throws java.io.IOException {
+		writeByte((byte) val);
+	}
+
+	public void writeByte(byte[] array) throws java.io.IOException {
+		writeByte(array, 0, array.length);
+	}
+
+	public void writeByte(byte[] array, int begin, int length)
+			throws java.io.IOException {
+		if (length <= 0)
+			return;
+		int i = 0;
+		while (true) {
+			if ((i = (outbuffer.length - outindex)) < length) {
+				if (i != 0) {
+					System.arraycopy(array, begin, outbuffer, outindex, i);
+					begin += i;
+					length -= i;
+					outindex += i;
+				}
+				flush();
+				continue;
+			}
+			System.arraycopy(array, begin, outbuffer, outindex, length);
+			outindex += length;
+			break;
+		}
+	}
+
+	public void writePad(int n) throws java.io.IOException {
+		int i;
+		while (true) {
+			if ((i = (outbuffer.length - outindex)) < n) {
+				if (i != 0) {
+					outindex += i;
+					n -= i;
+				}
+				flush();
+				continue;
+			}
+			outindex += n;
+			break;
+		}
+	}
+
+	synchronized void flush() throws java.io.IOException {
+		if (outindex == 0)
+			return;
+		out.write(outbuffer, 0, outindex);
+		outindex = 0;
+	}
+
+	synchronized void immediateWrite(byte[] array, int b, int l)
+			throws java.io.IOException {
+		out.write(array, b, l);
+	}
+
+	public void close() throws java.io.IOException {
+		in.close();
+		out.close();
+	}
 }

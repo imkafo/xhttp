@@ -1,6 +1,8 @@
 package org.xwww.types;
 
-import java.io.BufferedInputStream;
+import java.io.IOException;
+
+import com.jcraft.weirdx.IO;
 
 public class LISTOFVALUE extends XGenericType {
 
@@ -10,9 +12,11 @@ public class LISTOFVALUE extends XGenericType {
 	}
 
 	@Override
-	public void getDataFromStream(BufferedInputStream inputStream) {
+	public void getDataFromStream(IO io) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

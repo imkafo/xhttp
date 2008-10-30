@@ -66,9 +66,9 @@ public final class WeirdX extends Applet {
 
     static final int bitmapScanPad = 32; // 32
 
-    static short width = 768;
+    static short width = 868;
 
-    static short height = 576;
+    static short height = 776;
 
     static String visuals = "PseudoColor8";
 

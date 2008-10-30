@@ -4,9 +4,11 @@ import org.xwww.types.*;
 
 public class CreateWindowRequest extends XRequest {
 
+
 	// Static data
 	public int _ID = 1;
 	public String _NAME = "Create Window";
+
 
 	
 	@Override
@@ -71,6 +73,7 @@ public class CreateWindowRequest extends XRequest {
 
 	
 	@Override
+
 	public String createHTML() {
 
 		log.debug("CreateWidowRequest - Creating HTML ... ");
@@ -102,6 +105,7 @@ public class CreateWindowRequest extends XRequest {
         log.debug("HTML: " + out.substring(0, 30));
         
 		return out;
+
 	}
 
 	

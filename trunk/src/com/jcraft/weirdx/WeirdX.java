@@ -30,6 +30,8 @@ import java.applet.*;
 
 import org.apache.log4j.Logger;
 import org.xwww.config.XConfig;
+import org.xwww.html.DefaultHTMLFactory;
+import org.xwww.requests.CreateWindowRequest;
 
 // import com.sun.java.swing.*;
 // import javax.swing.*;
@@ -66,9 +68,9 @@ public final class WeirdX extends Applet {
 
     static final int bitmapScanPad = 32; // 32
 
-    static short width = 868;
+    static short width = 500;
 
-    static short height = 776;
+    static short height = 400;
 
     static String visuals = "PseudoColor8";
 
@@ -723,6 +725,23 @@ public final class WeirdX extends Applet {
     	XConfig.loadLogProperties();
     	
     	log.debug("Version: " + _VERSION );
+    	
+    	
+    	// Delete old file
+		new File( DefaultHTMLFactory._OUTPUT_FILE ).delete();
+		
+		
+    	// Create main window
+    	CreateWindowRequest w = new CreateWindowRequest();
+    	w.findParameter("wid").setValue("33");
+    	w.findParameter("x").setValue("0");
+    	w.findParameter("y").setValue("0");
+    	w.findParameter("width").setValue("600");
+    	w.findParameter("height").setValue("500");
+        String html = w.createHTML();
+        DefaultHTMLFactory kk = new DefaultHTMLFactory();
+        kk.writeHTML( html );
+		
     	
         String s;
         WeirdX weirdx = new WeirdX();

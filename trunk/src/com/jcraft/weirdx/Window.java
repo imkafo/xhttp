@@ -1916,6 +1916,7 @@ class Window extends Drawable {
         XRequest xreq = XRequestDispatcher.createRequest( 1 );
         xreq.captureDataFromStream( io );
 
+        // Xwww integration
         wid 		= xreq.findParameter("wid").getValueInt();
         parentid 	= xreq.findParameter("parent").getValueInt();
         x 			= xreq.findParameter("x").getValueInt();

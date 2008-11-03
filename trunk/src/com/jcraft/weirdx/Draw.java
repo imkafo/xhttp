@@ -26,6 +26,9 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.*;
 
+import org.xwww.requests.XRequest;
+import org.xwww.requests.XRequestDispatcher;
+
 final class Draw {
     static void reqPolyPoint(Client c, Drawable d, GC gc) throws IOException {
         
@@ -440,8 +443,8 @@ final class Draw {
 
     static void reqPolyText8(Client c, Drawable d, GC gc, int x, int y)
             throws IOException {
-        int n = c.length;
-        int len;
+
+    	int n = c.length;
         int foo;
         IO io = c.client;
 
@@ -450,6 +453,12 @@ final class Draw {
             c.client.readPad(n * 4);
             return;
         }
+        
+        // Create Request from dispatcher
+        XRequest xreq = XRequestDispatcher.createRequest( 1 );
+
+
+
 
         if (gc.clip_mask != null && gc.clip_mask instanceof ClipRectangles) {
             java.awt.Rectangle rec = (Rectangle) (gc.clip_mask.getMask());

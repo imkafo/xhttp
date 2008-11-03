@@ -25,9 +25,11 @@ public abstract class XRequest {
 	
 		init();
 		
+		log.debug("Creating Request: " + name );
+		
 	}
 	
-	
+	// Abstract methods
 	protected abstract void init();
 	public abstract String createHTML();
 	

@@ -26,6 +26,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.xwww.requests.XRequestDispatcher;
 
 import com.xweb.StaticData;
 
@@ -227,7 +228,7 @@ final class Client extends Thread {
                 errorReason = 0;
                 reqType = client.readByte();
 
-                log.debug("Request recived: " + reqType);
+                log.debug("Request recived (" + reqType + "): " + XRequestDispatcher.traduceName(reqType) );
                 
                 seq++;
 

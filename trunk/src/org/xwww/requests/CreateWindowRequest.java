@@ -99,8 +99,12 @@ public class CreateWindowRequest extends XRequest {
             "    shadow: false, \n" +
             "    html: 'Id:"+width+"' \n" +
             "    }); \n" + 
-            "win_"+wid+".show();\n" +
-            "win_"+parentId+".add( win_"+wid+");\n\n";
+            "win_"+wid+".show();\n";
+        
+        if ( parentId != null ) {
+        	out += "win_"+parentId+".add( win_"+wid+");\n\n";
+        }
+
        
         log.debug("HTML: " + out.substring(0, 30));
         

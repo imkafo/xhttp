@@ -731,17 +731,40 @@ public final class WeirdX extends Applet {
 		new File( DefaultHTMLFactory._OUTPUT_FILE ).delete();
 		
 		
-    	// Create main window
-    	CreateWindowRequest w = new CreateWindowRequest();
-    	w.findParameter("wid").setValue("33");
-    	w.findParameter("x").setValue("0");
-    	w.findParameter("y").setValue("0");
-    	w.findParameter("width").setValue("600");
-    	w.findParameter("height").setValue("500");
-        String html = w.createHTML();
-        DefaultHTMLFactory kk = new DefaultHTMLFactory();
-        kk.writeHTML( html );
+//    	// Create main window
+//    	CreateWindowRequest w = new CreateWindowRequest();
+//    	w.findParameter("wid").setValue("33");
+//    	w.findParameter("x").setValue("0");
+//    	w.findParameter("y").setValue("0");
+//    	w.findParameter("width").setValue("600");
+//    	w.findParameter("height").setValue("500");
+//        String html = w.createHTML();
+//        DefaultHTMLFactory kk = new DefaultHTMLFactory();
+//        kk.writeHTML( html );
 		
+        
+      String out = 
+      "win_33 = new Ext.Window({ \n" +
+      "    id: 33, \n" +
+      "        layout:'absolute', \n" +
+      "        width:800, \n" +
+      "        height:700, \n" +
+      "    x:10, y:10, \n" +
+      "        closable: false, \n" +
+      "        resizable: false, \n" +
+      "        plain: false, \n" +
+      "        border: false, \n" +
+
+      "        style: ''," +
+      "        bodyStyle: ''," +
+      
+      "    shadow: false, \n" +
+      "    html: 'Id:33' \n" +
+      "    }); \n" + 
+      "win_33.show();\n";
+      DefaultHTMLFactory kk = new DefaultHTMLFactory();
+      kk.writeHTML( out );  
+        
     	
         String s;
         WeirdX weirdx = new WeirdX();

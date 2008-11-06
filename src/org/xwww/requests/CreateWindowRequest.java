@@ -85,25 +85,47 @@ public class CreateWindowRequest extends XRequest {
 		String y 		= findParameter("y").getValue();
 		String parentId = findParameter("parent").getValue();
 		
-        String out = 
-            "win_"+ wid + " = new Ext.Window({ \n" +
-            "    id: " + width + ", \n" +
-            "        layout:'fit', \n" +
-            "        width:"+width+", \n" +
-            "        height:"+height+", \n" +
-            "    x:"+x+", y:"+y+", \n" +
-            "        closable: false, \n" +
-            "        resizable: false, \n" +
-            "        plain: false, \n" +
-            "        border: false, \n" +
-            "    shadow: false, \n" +
-            "    html: 'Id:"+width+"' \n" +
-            "    }); \n" + 
-            "win_"+wid+".show();\n";
-        
-        if ( parentId != null ) {
-        	out += "win_"+parentId+".add( win_"+wid+");\n\n";
+		String out = 
+			" var panel_" + wid + " = new Ext.Panel({ \n" +  
+			"	title: '',\n" +
+			"	layout: 'absolute',\n" + 
+			"	x: " + x + ",\n" + 
+			"   y: " + y + ",\n" + 
+			"	width: " + width + ",\n" +  
+			"	height: " + height + ",\n" + 
+			"   html: 'p:" + wid + "'\n" + 
+			" });\n";
+		
+        if ( parentId.equalsIgnoreCase("33") ) {
+        	out += "win_33.add( panel_"+wid+");\n\n";
+        } else {
+        	out += "win_33.add( panel_"+wid+");\n\n";
+        	// out += "parent_" + parentId + ".add( panel_"+wid+");\n\n";
         }
+		
+//        String out = 
+//            "win_"+ wid + " = new Ext.Window({ \n" +
+//            "    id: " + width + ", \n" +
+//            "        layout:'fit', \n" +
+//            "        width:"+width+", \n" +
+//            "        height:"+height+", \n" +
+//            "    x:"+x+", y:"+y+", \n" +
+//            "        closable: false, \n" +
+//            "        resizable: false, \n" +
+//            "        plain: false, \n" +
+//            "        border: false, \n" +
+//
+//            "        style: ''," +
+//            "        bodyStyle: ''," +
+//            
+//            "    shadow: false, \n" +
+//            "    html: 'Id:"+width+"' \n" +
+//            "    }); \n" + 
+//            "win_"+wid+".show();\n";
+//        
+//        if ( parentId != null ) {
+//        	out += "win_"+parentId+".add( win_"+wid+");\n\n";
+//        }
 
        
         log.debug("HTML: " + out.substring(0, 30));
